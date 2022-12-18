@@ -4,4 +4,4 @@ Great Ancestor collected this Information. In The 20th Century, This Information
 
 <hr>
 
-#### Plugins Theme Design with <a href="https://naadydev.github.io/jHTree/"> jHTree </a> And <a href="https://d3js.org/"> D3.js </a>
+#### Plugins with <a href="https://d3js.org/"> D3.js </a>
