@@ -1,0 +1,23 @@
+.container {
+	margin-top: 40px;
+}
+
+.node {
+	cursor: pointer;
+}
+
+.node circle {
+	fill: #fff;
+	stroke: red;
+	stroke-width: 2.5px;
+}
+
+.node text {
+	font: 14px sans-serif;
+}
+
+.link {
+	fill: none;
+	stroke: green;
+	stroke-width: 1px;
+}
