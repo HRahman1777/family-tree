@@ -29,12 +29,13 @@ var language = 'bn';
 var margin = { top: 45, right: 80, bottom: 45, left: 110 };
 var width = 1100;
 var height = 650;
+var horizontalScale = 2.6;
 var i = 0;
 var duration = 650;
 var root;
-var tree = d3.layout.tree().size([height, width]);
+var tree = d3.layout.tree().size([width, height]);
 var diagonal = d3.svg.diagonal().projection(function (d) {
-  return [d.y, d.x];
+  return [d.x, d.y];
 });
 var treeHost = d3.select('#tree');
 var svg = treeHost.append('svg');
@@ -48,10 +49,10 @@ var zoom = d3.behavior
 svg.call(zoom);
 
 var latinMap = {
-  জিয়া: 'Zia',
+  জিয়া: 'Zia',
   উদ্দিন: 'Uddin',
   মোছলেম: 'Moslem',
-  ছৈয়দ: 'Syed',
+  ছৈয়দ: 'Syed',
   আলী: 'Ali',
   হোসেন: 'Hossain',
   মাজেদ: 'Majed',
@@ -63,7 +64,7 @@ var latinMap = {
   জামাল: 'Jamal',
   শরিফ: 'Sharif',
   মোহাম্মদ: 'Mohammad',
-  তছলিম: 'Taslima',
+  তছলিম: 'Taslim',
   আজগর: 'Azgar',
   মহব্বত: 'Mahabbat',
   জিন্ন: 'Jinna',
@@ -74,7 +75,7 @@ var latinMap = {
   সাবির: 'Sabir',
   তাজুরদ্দিন: 'Tajurddin',
   দীন: 'Din',
-  দেওয়ান: 'Dewan',
+  দেওয়ান: 'Dewan',
   শাহাবুদ্দিন: 'Shahabuddin',
   মকবুল: 'Mokbul',
   বুরহান: 'Burhan',
@@ -105,8 +106,8 @@ var latinMap = {
   ইমাম: 'Imam',
   বদরউদ্দিন: 'Badruddin',
   বাহাউদ্দিন: 'Bahauddin',
-  তৈয়বুর: 'Taiyabur',
-  আউয়াল: 'Awwal',
+  তৈয়বুর: 'Taiyabur',
+  আউয়াল: 'Awwal',
   আকবর: 'Akbar',
   নাজিমদ্দিন: 'Nazimuddin',
   কাজিমদ্দিন: 'Kazimuddin',
@@ -131,39 +132,87 @@ var latinMap = {
   মাজম: 'Majam',
   তাজু: 'Taju',
   মজু: 'Maju',
-  মিয়া: 'Mia',
+  মিয়া: 'Mia',
   ওরফে: 'alias',
+  মোঃ: 'Md.',
 };
+
 var arabicMap = {
-  জিয়া: 'ضياء',
+  মোঃ: 'محمد',
+  জিয়া: 'ضياء',
   উদ্দিন: 'الدين',
   মোছলেম: 'مسلم',
-  ছৈয়দ: 'سيد',
+  ছৈয়দ: 'سيد',
   আলী: 'علي',
   হোসেন: 'حسين',
   মাজেদ: 'ماجد',
   তাজিব: 'تاجب',
+  তকিউল্যা: 'تقي الله',
+  সুজাউল্যা: 'سجاء الله',
+  সাবিউল্যা: 'سبيع الله',
   সামসুদ্দিন: 'شمس الدين',
   জামাল: 'جمال',
   শরিফ: 'شريف',
   মোহাম্মদ: 'محمد',
+  তছলিম: 'تسليم',
   আজগর: 'أزغر',
   মহব্বত: 'محبت',
+  জিন্ন: 'جن',
+  খন্দকার: 'خاندكار',
   জাকির: 'ذاكر',
   সুলতান: 'سلطان',
   সাদাত: 'سعادات',
   সাবির: 'صابر',
   দীন: 'الدين',
-  দেওয়ান: 'ديوان',
+  দেওয়ান: 'ديوان',
   শাহাবুদ্দিন: 'شهاب الدين',
   মকবুল: 'مقبول',
+  বুরহান: 'برهان',
+  নিজামদ্দিন: 'نظام الدين',
   আব্দুর: 'عبد',
+  গফুর: 'غفور',
+  সবুর: 'صبور',
+  রশিদ: 'رشيد',
+  ছমির: 'شمير',
+  হাজি: 'حاجي',
+  আলামদ্দিন: 'علام الدين',
+  জমির: 'زمير',
+  তকিব্যপারী: 'تقي بياري',
+  খবির: 'خبير',
+  করিম: 'كريم',
   রহমান: 'الرحمن',
-  হাসিবুর: 'حسيبور',
+  হাকিম: 'حكيم',
+  মফিজ: 'مفيز',
+  নূরুল: 'نور',
+  হাসিবুর: 'حسيب',
+  মাহবুবুর: 'محبوب',
+  সাজিদ: 'ساجد',
+  মাহমুদ: 'محمود',
+  রাজ্জাক: 'الرزاق',
   ইসলাম: 'الإسلام',
   আহকাম: 'أحكام',
   রমিজদ্দিন: 'رميز الدين',
   ইমাম: 'إمام',
+  বদরউদ্দিন: 'بدر الدين',
+  বাহাউদ্দিন: 'بهاء الدين',
+  তৈয়বুর: 'طيب الرحمن',
+  আউয়াল: 'الأول',
+  আকবর: 'أكبر',
+  নাজিমদ্দিন: 'ناظم الدين',
+  কাজিমদ্দিন: 'كاظم الدين',
+  জিন্নত: 'جنة',
+  আব্বাছ: 'عباس',
+  শুকুর: 'شكور',
+  ব্যপারী: 'بياري',
+  বকস: 'بكس',
+  মন্ডল: 'مندل',
+  তামিজ: 'تمييز',
+  ফসিউল্যা: 'فسي الله',
+  তাজিদুল্যা: 'تاج الله',
+  আলি: 'علي',
+  খাদেম: 'خادم',
+  জান: 'جان',
+  লাল: 'لال',
   মোছলেহ: 'مصلح',
   জালাল: 'جلال',
   রহিম: 'رحيم',
@@ -171,8 +220,9 @@ var arabicMap = {
   কালাই: 'كلائي',
   মাজম: 'ماجم',
   তাজু: 'تاجو',
+  তাজুরদ্দিন: 'تاج الدين',
   মজু: 'ماجو',
-  মিয়া: 'ميا',
+  মিয়া: 'ميا',
   ওরফে: 'المعروف باسم',
 };
 
@@ -192,13 +242,17 @@ function labelFor(d) {
   return d.name;
 }
 
+function labelDirection() {
+  return language === 'ar' ? 'rtl' : 'ltr';
+}
+
 function resizeTree() {
   var hostWidth = document.getElementById('tree').clientWidth || 900;
   width = Math.max(1100, hostWidth - margin.left - margin.right);
   height = window.innerWidth < 680 ? 560 : 650;
-  tree.size([height, width]);
+  tree.size([width, height]);
   svg
-    .attr('width', width + margin.left + margin.right)
+    .attr('width', width * horizontalScale + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom);
   canvas.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
   if (root) update(root);
@@ -207,7 +261,7 @@ function resizeTree() {
 d3.json('./data/data.json', function (error, data) {
   if (error) throw error;
   root = data;
-  root.x0 = height / 2;
+  root.x0 = width / 2;
   root.y0 = 0;
   if (root.children) root.children.forEach(collapse);
   resizeTree();
@@ -216,6 +270,17 @@ d3.json('./data/data.json', function (error, data) {
 function update(source) {
   var nodes = tree.nodes(root).reverse();
   var links = tree.links(nodes);
+  var maxDepth = d3.max(nodes, function (d) {
+    return d.depth;
+  });
+  height = Math.max(window.innerWidth < 680 ? 560 : 650, (maxDepth + 1) * 185);
+  tree.size([width, height]);
+  nodes.forEach(function (d) {
+    d.x = (d.x - width / 2) * horizontalScale + width;
+  });
+  svg
+    .attr('width', width * horizontalScale + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom);
   nodes.forEach(function (d) {
     d.y = d.depth * 185;
   });
@@ -227,24 +292,16 @@ function update(source) {
     .append('g')
     .attr('class', 'node')
     .attr('transform', function () {
-      return 'translate(' + source.y0 + ',' + source.x0 + ')';
+      return 'translate(' + source.x0 + ',' + source.y0 + ')';
     })
     .on('click', click);
   nodeEnter.append('circle').attr('r', 1e-6);
-  nodeEnter
-    .append('text')
-    .attr('x', function (d) {
-      return d.children || d._children ? -12 : 12;
-    })
-    .attr('dy', '.35em')
-    .attr('text-anchor', function (d) {
-      return d.children || d._children ? 'end' : 'start';
-    });
+  nodeEnter.append('text').attr('y', -14).attr('text-anchor', 'middle');
   var nodeUpdate = node
     .transition()
     .duration(duration)
     .attr('transform', function (d) {
-      return 'translate(' + d.y + ',' + d.x + ')';
+      return 'translate(' + d.x + ',' + d.y + ')';
     });
   nodeUpdate
     .select('circle')
@@ -254,13 +311,17 @@ function update(source) {
     .style('fill', function (d) {
       return d._children ? '#e86f51' : '#fff';
     });
-  nodeUpdate.select('text').text(labelFor).style('fill-opacity', 1);
+  nodeUpdate
+    .select('text')
+    .text(labelFor)
+    .attr('direction', labelDirection())
+    .style('fill-opacity', 1);
   node
     .exit()
     .transition()
     .duration(duration)
     .attr('transform', function () {
-      return 'translate(' + source.y + ',' + source.x + ')';
+      return 'translate(' + source.x + ',' + source.y + ')';
     })
     .remove();
   var link = canvas.selectAll('path.link').data(links, function (d) {

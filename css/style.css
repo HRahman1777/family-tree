@@ -133,7 +133,7 @@ h2 {
   background: var(--panel);
   border: 1px solid var(--line);
   min-height: 560px;
-  overflow: hidden;
+  overflow: auto;
   position: relative;
 }
 #tree svg {
@@ -156,9 +156,19 @@ h2 {
 .node text {
   fill: var(--ink);
   font:
-    600 14px 'Trebuchet MS',
+    600 14px Tahoma,
+    'Noto Naskh Arabic',
     'Segoe UI',
     sans-serif;
+  paint-order: stroke;
+  stroke: var(--panel);
+  stroke-width: 7px;
+  stroke-linejoin: round;
+  unicode-bidi: plaintext;
+}
+#tree[lang='ar'] .node text {
+  font-family: Tahoma, 'Noto Naskh Arabic', 'Amiri', sans-serif;
+  font-size: 16px;
 }
 .link {
   fill: none;
