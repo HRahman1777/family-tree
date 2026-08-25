@@ -130,19 +130,17 @@ h2 {
   margin: 0;
 }
 #tree {
-  background: var(--panel);
-  border: 1px solid var(--line);
+  background: transparent;
+  border: 0;
   min-height: 560px;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   position: relative;
+  width: 100%;
 }
 #tree svg {
   display: block;
-  cursor: grab;
   min-height: 560px;
-}
-#tree svg:active {
-  cursor: grabbing;
 }
 .node {
   cursor: pointer;

@@ -29,7 +29,7 @@ var language = 'bn';
 var margin = { top: 45, right: 80, bottom: 45, left: 110 };
 var width = 1100;
 var height = 650;
-var horizontalScale = 2.6;
+var horizontalScale = 2.2;
 var i = 0;
 var duration = 650;
 var root;
@@ -40,13 +40,6 @@ var diagonal = d3.svg.diagonal().projection(function (d) {
 var treeHost = d3.select('#tree');
 var svg = treeHost.append('svg');
 var canvas = svg.append('g').attr('class', 'tree-canvas');
-var zoom = d3.behavior
-  .zoom()
-  .scaleExtent([0.35, 2.4])
-  .on('zoom', function () {
-    canvas.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')');
-  });
-svg.call(zoom);
 
 var latinMap = {
   জিয়া: 'Zia',
@@ -254,14 +247,14 @@ function resizeTree() {
   svg
     .attr('width', width * horizontalScale + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom);
-  canvas.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+  canvas.attr('transform', 'translate(0,' + margin.top + ')');
   if (root) update(root);
 }
 
 d3.json('./data/data.json', function (error, data) {
   if (error) throw error;
   root = data;
-  root.x0 = width / 2;
+  root.x0 = (width * horizontalScale) / 2 + margin.left;
   root.y0 = 0;
   if (root.children) root.children.forEach(collapse);
   resizeTree();
@@ -276,7 +269,7 @@ function update(source) {
   height = Math.max(window.innerWidth < 680 ? 560 : 650, (maxDepth + 1) * 185);
   tree.size([width, height]);
   nodes.forEach(function (d) {
-    d.x = (d.x - width / 2) * horizontalScale + width;
+    d.x = d.x * horizontalScale + margin.left;
   });
   svg
     .attr('width', width * horizontalScale + margin.left + margin.right)

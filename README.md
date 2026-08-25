@@ -13,7 +13,6 @@ Scanned source materials are available in the [image archive](image.html).
 - Interactive top-down family tree powered by [D3.js](https://d3js.org/)
 - Expand and collapse individual branches
 - Expand or collapse the complete tree
-- Pan and zoom around large family branches
 - Switch names between Bangla, English, and Arabic
 - Right-to-left rendering for Arabic names
 - Responsive layout for desktop and mobile screens
