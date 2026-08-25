@@ -1,55 +1,60 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
 <html>
-   <head>
-      <meta charset="utf-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-      <meta
-         name="viewport"
-         content="width=device-width, initial-scale=1, shrink-to-fit=no"
-         />
-      <title>TREE by HasiburRahman</title>
-      <link rel="stylesheet" href="./css/bootstrap.min.css">
-      <link rel="stylesheet" href="./css/style.css">
-   </head>
-   <body>
-      <div class="container">
-         <div class="card p-4">
-            <h1>TREE</h1>
-            <p>@<i>HasiburRahman</i></p>
-            <a
-               href="./index2.html"
-               class="btn btn-outline-dark btn-sm"
-               style="max-width: 10rem"
-               >Authentic Bloodline</a
-               >
-            <a
-               href="./about.html"
-               class="btn btn-outline-info btn-sm mt-2"
-               style="max-width: 6rem"
-               >About</a
-               >
-         </div>
-         <br />
-         <a href="javascript:void(0)" onclick="expandAll()" class="btn btn-sm btn-warning">Expand</a>
-         <a href="javascript:void(0)" onclick="collapseAll()" class="btn btn-sm btn-warning">Collapse</a>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Family Tree | Bloodline Archive</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="hero-panel">
+        <div>
+          <p class="eyebrow">BLOODLINE ARCHIVE / 01</p>
+          <h1>Our family, connected.</h1>
+          <p class="hero-copy">
+            Explore generations of memory, names, and lineage in one living map.
+          </p>
+        </div>
+        <nav class="hero-nav" aria-label="Primary navigation">
+          <a href="./about.html">About</a>
+          <a href="./image.html">Image archive</a>
+        </nav>
+      </header>
+      <section class="control-bar" aria-label="Tree controls">
+        <div class="control-intro">
+          <span class="status-dot"></span><span id="tree-status">Interactive lineage map</span>
+        </div>
+        <div class="controls">
+          <label for="language">Language</label>
+          <select id="language" aria-label="Choose tree language">
+            <option value="bn">বাংলা</option>
+            <option value="en">English</option>
+            <option value="ar">العربية</option>
+          </select>
+          <button type="button" onclick="expandAll()">Expand all</button>
+          <button type="button" onclick="collapseAll()">Collapse all</button>
+        </div>
+      </section>
+    </main>
+    <section class="tree-section" aria-label="Interactive family tree">
+      <div class="tree-heading">
+        <div>
+          <p class="eyebrow">THE GENERATIONS</p>
+          <h2>Trace the line</h2>
+        </div>
+        <p class="tree-hint">Select a person to reveal their branch. Drag to explore.</p>
       </div>
+      <div id="tree" role="application" aria-label="Family tree visualization"></div>
+    </section>
+    <script src="js/d3.v3.min.js"></script>
+    <script src="js/theTree.js"></script>
 
-
-      <div id="tree"></div>
-      <script src="js/d3.v3.min.js"></script>
-      <script src="js/theTree.js"></script>
-
-
-      <div class="container">
-         <h3>TREE | Bloodline</h3>
-         <div class="col">
-            <p class="">
-               2022 ©
-               <a href="https://hrahman1777.github.io/" target="_blank"
-                  >HRahman1777</a
-                  >
-            </p>
-         </div>
-      </div>
-   </body>
+    <footer class="site-footer">
+      2026 / <a href="https://hrahman1777.github.io/" target="_blank">HRahman1777</a
+      ><span>Family tree archive</span>
+    </footer>
+  </body>
 </html>
