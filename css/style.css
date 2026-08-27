@@ -55,6 +55,13 @@ h1 {
   margin: 22px 0 0;
   max-width: 470px;
 }
+.tree-summary {
+  color: var(--accent-dark);
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 18px 0 0;
+  max-width: 560px;
+}
 .hero-nav {
   display: flex;
   gap: 22px;
@@ -108,6 +115,15 @@ select,
 select:focus {
   border-color: var(--accent);
   outline: none;
+}
+.controls button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+.controls button.active:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
 }
 .tree-section {
   max-width: 1400px;
@@ -163,6 +179,14 @@ h2 {
   stroke-width: 7px;
   stroke-linejoin: round;
   unicode-bidi: plaintext;
+}
+.node-meta {
+  fill: var(--muted) !important;
+  font:
+    10px Tahoma,
+    'Segoe UI',
+    sans-serif !important;
+  stroke-width: 4px !important;
 }
 #tree[lang='ar'] .node text {
   font-family: Tahoma, 'Noto Naskh Arabic', 'Amiri', sans-serif;

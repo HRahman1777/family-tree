@@ -17,6 +17,9 @@
           <p class="hero-copy">
             Explore generations of memory, names, and lineage in one living map.
           </p>
+          <p id="tree-summary" class="tree-summary" aria-live="polite">
+            Loading lineage summary...
+          </p>
         </div>
         <nav class="hero-nav" aria-label="Primary navigation">
           <a href="./about.html">About</a>
@@ -34,8 +37,12 @@
             <option value="en">English</option>
             <option value="ar">العربية</option>
           </select>
-          <button type="button" onclick="expandAll()">Expand all</button>
-          <button type="button" onclick="collapseAll()">Collapse all</button>
+          <button id="expand-all" type="button" onclick="expandAll()" aria-pressed="false">
+            Expand all
+          </button>
+          <button id="collapse-all" type="button" onclick="collapseAll()" aria-pressed="false">
+            Collapse all
+          </button>
         </div>
       </section>
       <section class="tree-section" aria-label="Family tree">

@@ -15,13 +15,25 @@ function collapse(d) {
   }
 }
 
+function setTreeMode(mode) {
+  var expandButton = document.getElementById('expand-all');
+  var collapseButton = document.getElementById('collapse-all');
+  var expanded = mode === 'expanded';
+  expandButton.classList.toggle('active', expanded);
+  collapseButton.classList.toggle('active', !expanded);
+  expandButton.setAttribute('aria-pressed', expanded);
+  collapseButton.setAttribute('aria-pressed', !expanded);
+}
+
 function expandAll() {
   expand(root);
+  setTreeMode('expanded');
   update(root);
 }
 
 function collapseAll() {
   if (root.children) root.children.forEach(collapse);
+  setTreeMode('collapsed');
   update(root);
 }
 
@@ -32,6 +44,7 @@ var height = 650;
 var horizontalScale = 2.2;
 var i = 0;
 var duration = 650;
+var yearsPerGeneration = 25;
 var root;
 var tree = d3.layout.tree().size([width, height]);
 var diagonal = d3.svg.diagonal().projection(function (d) {
@@ -125,9 +138,14 @@ var latinMap = {
   মাজম: 'Majam',
   তাজু: 'Taju',
   মজু: 'Maju',
-  মিয়া: 'Mia',
+  মিঞা: 'Mia',
   ওরফে: 'alias',
   মোঃ: 'Md.',
+  সৈয়দ: 'Sayyid',
+  দেওয়ান: 'Dewan',
+  আউয়াল: 'Awwal',
+  আমিনুল: 'Aminul',
+  মনিরুল: 'Monirul',
 };
 
 var arabicMap = {
@@ -157,7 +175,6 @@ var arabicMap = {
   সাদাত: 'سعادات',
   সাবির: 'صابر',
   দীন: 'الدين',
-  দেওয়ান: 'ديوان',
   শাহাবুদ্দিন: 'شهاب الدين',
   মকবুল: 'مقبول',
   বুরহান: 'برهان',
@@ -215,8 +232,13 @@ var arabicMap = {
   তাজু: 'تاجو',
   তাজুরদ্দিন: 'تاج الدين',
   মজু: 'ماجو',
-  মিয়া: 'ميا',
+  মিঞা: 'ميا',
   ওরফে: 'المعروف باسم',
+  সৈয়দ: 'سيد',
+  দেওয়ান: 'ديوان',
+  আউয়াল: 'الأول',
+  আমিনুল: 'أمين',
+  মনিরুল: 'منير',
 };
 
 function transliterate(name, map) {
@@ -239,6 +261,34 @@ function labelDirection() {
   return language === 'ar' ? 'rtl' : 'ltr';
 }
 
+function annotateTree(node, depth) {
+  var children = node.children || [];
+  var maxDepth = depth;
+  node.generation = depth + 1;
+  node.directChildren = children.length;
+  node.descendantCount = 0;
+  children.forEach(function (child) {
+    var childMaxDepth = annotateTree(child, depth + 1);
+    node.descendantCount += child.descendantCount + 1;
+    maxDepth = Math.max(maxDepth, childMaxDepth);
+  });
+  return maxDepth;
+}
+
+function updateSummary(maxDepth, totalPeople) {
+  var generations = maxDepth + 1;
+  var years = maxDepth * yearsPerGeneration;
+  document.getElementById('tree-summary').textContent =
+    generations +
+    ' generations / ' +
+    totalPeople +
+    ' people / approximately ' +
+    years +
+    ' years of family history (based on ' +
+    yearsPerGeneration +
+    ' years per generation)';
+}
+
 function resizeTree() {
   var hostWidth = document.getElementById('tree').clientWidth || 900;
   width = Math.max(1100, hostWidth - margin.left - margin.right);
@@ -254,9 +304,12 @@ function resizeTree() {
 d3.json('./data/data.json', function (error, data) {
   if (error) throw error;
   root = data;
+  var maxDepth = annotateTree(root, 0);
+  updateSummary(maxDepth, root.descendantCount + 1);
   root.x0 = (width * horizontalScale) / 2 + margin.left;
   root.y0 = 0;
   if (root.children) root.children.forEach(collapse);
+  setTreeMode('collapsed');
   resizeTree();
 });
 
@@ -289,7 +342,8 @@ function update(source) {
     })
     .on('click', click);
   nodeEnter.append('circle').attr('r', 1e-6);
-  nodeEnter.append('text').attr('y', -14).attr('text-anchor', 'middle');
+  nodeEnter.append('text').attr('class', 'node-name').attr('y', -14).attr('text-anchor', 'middle');
+  nodeEnter.append('text').attr('class', 'node-meta').attr('y', 12).attr('text-anchor', 'middle');
   var nodeUpdate = node
     .transition()
     .duration(duration)
@@ -305,9 +359,15 @@ function update(source) {
       return d._children ? '#e86f51' : '#fff';
     });
   nodeUpdate
-    .select('text')
+    .select('.node-name')
     .text(labelFor)
     .attr('direction', labelDirection())
+    .style('fill-opacity', 1);
+  nodeUpdate
+    .select('.node-meta')
+    .text(function (d) {
+      return 'Children: ' + d.directChildren + ' | Descendants: ' + d.descendantCount;
+    })
     .style('fill-opacity', 1);
   node
     .exit()
