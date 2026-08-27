@@ -15,6 +15,7 @@ Scanned source materials are available in the [image archive](image.html).
 - Expand or collapse the complete tree
 - Switch names between Bangla, English, and Arabic
 - Right-to-left rendering for Arabic names
+- Switch between vertical and horizontal tree orientations
 - Responsive layout for desktop and mobile screens
 
 ## Project structure
